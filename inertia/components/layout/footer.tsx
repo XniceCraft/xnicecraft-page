@@ -6,7 +6,7 @@ import { gsap } from 'gsap'
 
 gsap.registerPlugin(ScrollToPlugin)
 
-export function Footer() {
+export function Footer({ variant = 'full' }: { variant?: 'full' | 'simplified' }) {
   const year = new Date().getFullYear()
 
   const scrollToTop = useCallback(() => {
@@ -24,10 +24,12 @@ export function Footer() {
       aria-label="Site footer"
     >
       <div className="max-w-page-max mx-auto flex flex-col gap-3">
-        <p className="font-display text-[clamp(1.75rem,8vw,3rem)] sm:text-4xl font-bold tracking-tighter leading-[1.05] text-ink mb-6 max-w-[20ch] overflow-wrap-anywhere min-w-0">
-          {footerData.message.primary}{' '}
-          <span className="text-accent">{footerData.message.secondary}</span>
-        </p>
+        {variant === 'full' && (
+          <p className="font-display text-[clamp(1.75rem,8vw,3rem)] sm:text-4xl font-bold tracking-tighter leading-[1.05] text-ink mb-6 max-w-[20ch] overflow-wrap-anywhere min-w-0">
+            {footerData.message.primary}{' '}
+            <span className="text-accent">{footerData.message.secondary}</span>
+          </p>
+        )}
 
         <p className="font-mono text-sm text-ink-3 mb-12 tracking-wide">
           {footerData.copyright}, {year}.

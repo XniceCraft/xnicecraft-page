@@ -7,13 +7,27 @@ import { gsap } from 'gsap'
 import { cn } from '@/lib/utils'
 import { globalData } from '@/lib/data/global'
 
+import type { urlFor } from '@/client'
+
+type InternalLink = {
+  href: Parameters<typeof urlFor>[0]
+  label: string
+  type: 'internal'
+}
+
+type ExternalLink = {
+  href: string
+  label: string
+  type: 'external'
+}
+
 gsap.registerPlugin(useGSAP)
 
-const links = [
-  { href: '#works', label: 'Works' },
-  { href: '#about', label: 'About' },
-  { href: '#contact', label: 'Contact' },
-  { href: '/blog', label: 'Blog' },
+const links: (InternalLink | ExternalLink)[] = [
+  { href: 'home', label: 'Home', type: 'internal' },
+  { href: '/#works', label: 'Works', type: 'external' },
+  { href: '/#about', label: 'About', type: 'external' },
+  { href: 'posts.index', label: 'Blog', type: 'internal' },
 ]
 
 export function Navbar() {
@@ -117,7 +131,9 @@ export function Navbar() {
                   <li key={link.href} className="nav-link-item">
                     <Magnetic range={40} strength={0.25}>
                       <Link
-                        href={link.href}
+                        {...(link.type === 'internal' ? { route: link.href } : { href: link.href })}
+                        target={link.type === 'external' ? '_blank' : undefined}
+                        rel={link.type === 'external' ? 'noopener noreferrer' : undefined}
                         className="font-body text-sm font-medium text-ink-2 no-underline py-1 px-3 rounded-md transition-all duration-fast ease-out hover:text-ink hover:bg-paper-3 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-2"
                       >
                         {link.label}

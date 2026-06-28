@@ -6,6 +6,8 @@ export type ScannedRoutes = {
   ALL: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
     'home': { paramsTuple?: []; params?: {} }
+    'posts.index': { paramsTuple?: []; params?: {} }
+    'posts.show': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'admin.login': { paramsTuple?: []; params?: {} }
     'admin.login.store': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
@@ -21,12 +23,14 @@ export type ScannedRoutes = {
     'admin.posts.edit': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'admin.posts.update': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'admin.posts.destroy': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
-    'session.destroy': { paramsTuple?: []; params?: {} }
+    'admin.logout': { paramsTuple?: []; params?: {} }
     'attachments': { paramsTuple: [ParamValue,ParamValue?]; params: {'key': ParamValue,'name'?: ParamValue} }
   }
   GET: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
     'home': { paramsTuple?: []; params?: {} }
+    'posts.index': { paramsTuple?: []; params?: {} }
+    'posts.show': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'admin.login': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.categories.index': { paramsTuple?: []; params?: {} }
@@ -40,6 +44,8 @@ export type ScannedRoutes = {
   HEAD: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
     'home': { paramsTuple?: []; params?: {} }
+    'posts.index': { paramsTuple?: []; params?: {} }
+    'posts.show': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'admin.login': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.categories.index': { paramsTuple?: []; params?: {} }
@@ -58,7 +64,7 @@ export type ScannedRoutes = {
     'admin.posts.store': { paramsTuple?: []; params?: {} }
     'admin.posts.update': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'admin.posts.destroy': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
-    'session.destroy': { paramsTuple?: []; params?: {} }
+    'admin.logout': { paramsTuple?: []; params?: {} }
   }
 }
 declare module '@adonisjs/core/types/http' {

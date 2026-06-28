@@ -18,6 +18,18 @@ const routes = {
     tokens: [{"old":"/","type":0,"val":"/","end":""}],
     types: placeholder as Registry['home']['types'],
   },
+  'posts.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/posts',
+    tokens: [{"old":"/posts","type":0,"val":"posts","end":""}],
+    types: placeholder as Registry['posts.index']['types'],
+  },
+  'posts.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/posts/:slug',
+    tokens: [{"old":"/posts/:slug","type":0,"val":"posts","end":""},{"old":"/posts/:slug","type":1,"val":"slug","end":""}],
+    types: placeholder as Registry['posts.show']['types'],
+  },
   'admin.login': {
     methods: ["GET","HEAD"],
     pattern: '/admin/login',
@@ -108,11 +120,11 @@ const routes = {
     tokens: [{"old":"/admin/posts/:slug/delete","type":0,"val":"admin","end":""},{"old":"/admin/posts/:slug/delete","type":0,"val":"posts","end":""},{"old":"/admin/posts/:slug/delete","type":1,"val":"slug","end":""},{"old":"/admin/posts/:slug/delete","type":0,"val":"delete","end":""}],
     types: placeholder as Registry['admin.posts.destroy']['types'],
   },
-  'session.destroy': {
+  'admin.logout': {
     methods: ["POST"],
     pattern: '/admin/logout',
     tokens: [{"old":"/admin/logout","type":0,"val":"admin","end":""},{"old":"/admin/logout","type":0,"val":"logout","end":""}],
-    types: placeholder as Registry['session.destroy']['types'],
+    types: placeholder as Registry['admin.logout']['types'],
   },
   'attachments': {
     methods: ["GET","HEAD"],

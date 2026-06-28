@@ -10,6 +10,7 @@ export default class extends BaseSchema {
       table.string('title', 255).notNullable()
       table.string('slug', 255).notNullable().unique()
       table.string('excerpt', 255).nullable()
+      table.integer('read_time').unsigned().notNullable().defaultTo(0)
       table.json('content').nullable()
       table.json('cover_image').nullable()
       table.enum('status', ['draft', 'published', 'archived']).defaultTo('draft').notNullable()

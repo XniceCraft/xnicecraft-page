@@ -11,4 +11,5 @@ export const controllers = {
     Posts: () => import('#controllers/admin/posts_controller'),
     Session: () => import('#controllers/admin/session_controller'),
   },
+  Posts: () => import('#controllers/posts_controller'),
 }

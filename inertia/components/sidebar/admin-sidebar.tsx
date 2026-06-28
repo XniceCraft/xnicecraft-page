@@ -1,6 +1,6 @@
 import { usePage } from '@inertiajs/react'
 import { Link } from '@adonisjs/inertia/react'
-import { cn } from '@/lib/utils'
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import {
   ChartBarIcon,
   FolderIcon,
@@ -8,10 +8,15 @@ import {
   GlobeIcon,
   GearSixIcon,
   SignOutIcon,
+  ListIcon,
 } from '@phosphor-icons/react'
+import { cn } from '@/lib/utils'
 import { urlFor } from '@/client'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 import type { RouteType } from '@/types/route'
+import type { InertiaProps } from '@/types'
+import { Button } from '../ui/button'
 
 const navigation: RouteType[] = [
   {
@@ -36,11 +41,9 @@ const navigation: RouteType[] = [
   },
 ]
 
-export function AdminSidebar() {
-  const { url } = usePage()
-
+function SidebarContent({ url, props }: { url: string; props: InertiaProps }) {
   return (
-    <aside className="flex h-screen w-72 flex-col border-r border-rule bg-surface font-sans">
+    <>
       <div className="border-b border-rule px-6 py-5">
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent text-paper shadow-sm">
@@ -61,7 +64,7 @@ export function AdminSidebar() {
           Navigation
         </p>
 
-        <nav className="space-y-1">
+        <nav className="space-y-1" aria-label="Admin navigation">
           {navigation.map((item) => {
             const normalizedURL = url.endsWith('/') ? url.substring(0, url.length - 1) : url
             const active = urlFor(item.route) === normalizedURL
@@ -93,13 +96,12 @@ export function AdminSidebar() {
 
       <div className="border-t border-rule p-4">
         <div className="mb-4 rounded-2xl border border-rule bg-paper-2 p-4">
-          <p className="text-sm font-semibold text-ink">Administrator</p>
-          <p className="mt-1 text-xs text-ink-3">Manage website content</p>
+          <p className="text-sm font-semibold text-ink truncate">{props.user!.name}</p>
+          <p className="mt-1 text-xs text-ink-3 truncate">{props.user!.email}</p>
         </div>
 
         <Link
-          href="/logout"
-          method="post"
+          route="admin.logout"
           className={cn(
             'flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-fast ease-out outline-none',
             'focus-visible:outline-2 focus-visible:outline-destructive focus-visible:outline-offset-1',
@@ -111,6 +113,32 @@ export function AdminSidebar() {
           Logout
         </Link>
       </div>
+    </>
+  )
+}
+
+export function AdminSidebar() {
+  const { url, props } = usePage<InertiaProps>()
+  const isMobile = useIsMobile()
+
+  if (isMobile) {
+    return (
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button type="button" variant="outline" className="absolute top-4 left-4 z-50">
+            <ListIcon size={20} weight="bold" />
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="left">
+          <SidebarContent url={url} props={props} />
+        </SheetContent>
+      </Sheet>
+    )
+  }
+
+  return (
+    <aside className="flex h-screen w-72 flex-col border-r border-rule bg-surface font-sans">
+      <SidebarContent url={url} props={props} />
     </aside>
   )
 }

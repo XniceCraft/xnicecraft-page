@@ -3,6 +3,7 @@ import tseslint from 'typescript-eslint'
 import react from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
+import prettier from 'eslint-plugin-prettier/recommended'
 import globals from 'globals'
 
 const frontendConfig = {
@@ -13,6 +14,7 @@ const frontendConfig = {
     react,
     'react-hooks': reactHooks,
     'jsx-a11y': jsxA11y,
+    ...prettier.plugins,
   },
   languageOptions: {
     globals: {
@@ -59,6 +61,18 @@ const frontendConfig = {
         additionalHooks: 'useGSAP',
       },
     ],
+
+    '@typescript-eslint/consistent-type-imports': [
+      'error',
+      {
+        prefer: 'type-imports',
+        fixStyle: 'inline-type-imports',
+        disallowTypeAnnotations: false,
+      },
+    ],
+
+    ...prettier.rules,
+    'prettier/prettier': ['error', { endOfLine: 'auto' }],
   },
 }
 

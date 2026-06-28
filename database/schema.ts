@@ -23,7 +23,20 @@ export class CategorySchema extends BaseModel {
 }
 
 export class PostSchema extends BaseModel {
-  static $columns = ['categoryId', 'content', 'coverImage', 'createdAt', 'excerpt', 'id', 'publishedAt', 'slug', 'status', 'title', 'updatedAt'] as const
+  static $columns = [
+    'categoryId',
+    'content',
+    'coverImage',
+    'createdAt',
+    'excerpt',
+    'id',
+    'publishedAt',
+    'readTime',
+    'slug',
+    'status',
+    'title',
+    'updatedAt',
+  ] as const
   $columns = PostSchema.$columns
   @column()
   declare categoryId: number | null
@@ -39,6 +52,8 @@ export class PostSchema extends BaseModel {
   declare id: number
   @column.dateTime()
   declare publishedAt: DateTime | null
+  @column()
+  declare readTime: number
   @column()
   declare slug: string
   @column()

@@ -7,13 +7,17 @@ import { createPostValidator, updatePostValidator } from '#validators/post'
 
 import type { HttpContext } from '@adonisjs/core/http'
 import type { JSONContent } from '@tiptap/react'
+import { calculateReadTimeMinutes } from '#helpers/post'
 
 export default class PostsController {
   async index({ inertia, request }: HttpContext) {
     const page = request.input('page', 1)
     const limit = 20
 
-    const posts = await Post.query().orderBy('created_at', 'desc').paginate(page, limit)
+    const posts = await Post.query()
+      .orderBy('created_at', 'desc')
+      .preload('category')
+      .paginate(page, limit)
 
     return inertia.render('admin/posts/index', {
       posts: PostTransformer.paginate(posts.all(), posts.getMeta()).useVariant('withDetail'),
@@ -32,10 +36,13 @@ export default class PostsController {
     const { coverImage, content, ...payload } = await request.validateUsing(createPostValidator)
     const cover = await attachmentManager.createFromFile(coverImage.file)
 
+    const readTime = calculateReadTimeMinutes(content)
+
     await Post.create({
       ...payload,
       content: content as unknown as JSONContent,
       coverImage: cover,
+      readTime: readTime,
     })
 
     return response.redirect().toRoute('admin.posts.index')
@@ -61,11 +68,14 @@ export default class PostsController {
       cover = await attachmentManager.createFromFile(coverImage.file)
     }
 
+    const readTime = calculateReadTimeMinutes(content)
+
     await post
       .merge({
         ...payload,
         content: content as unknown as JSONContent,
         coverImage: cover,
+        readTime: readTime,
       })
       .save()
 

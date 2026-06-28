@@ -31,6 +31,30 @@ export interface Registry {
       errorResponse: unknown
     }
   }
+  'posts.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/posts'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/posts_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/posts_controller').default['index']>>>
+    }
+  }
+  'posts.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/posts/:slug'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { slug: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/posts_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/posts_controller').default['show']>>>
+    }
+  }
   'admin.login': {
     methods: ["GET","HEAD"]
     pattern: '/admin/login'
@@ -211,7 +235,7 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/posts_controller').default['destroy']>>>
     }
   }
-  'session.destroy': {
+  'admin.logout': {
     methods: ["POST"]
     pattern: '/admin/logout'
     types: {

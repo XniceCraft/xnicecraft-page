@@ -12,6 +12,8 @@ import { controllers } from '#generated/controllers'
 import router from '@adonisjs/core/services/router'
 
 router.on('/').renderInertia('home', {}).as('home')
+router.get('/posts', [controllers.Posts, 'index']).as('posts.index')
+router.get('/posts/:slug', [controllers.Posts, 'show']).as('posts.show')
 
 router
   .group(() => {
@@ -56,7 +58,7 @@ router
           })
           .prefix('/posts')
 
-        router.post('/logout', [controllers.admin.Session, 'destroy'])
+        router.post('/logout', [controllers.admin.Session, 'destroy']).as('admin.logout')
       })
       .use([middleware.auth(), middleware.ensureAdmin()])
   })

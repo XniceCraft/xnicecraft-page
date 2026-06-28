@@ -8,6 +8,10 @@ export interface ApiDefinition {
     }
   }
   home: typeof routes['home']
+  posts: {
+    index: typeof routes['posts.index']
+    show: typeof routes['posts.show']
+  }
   admin: {
     login: typeof routes['admin.login'] & {
       store: typeof routes['admin.login.store']
@@ -29,9 +33,7 @@ export interface ApiDefinition {
       update: typeof routes['admin.posts.update']
       destroy: typeof routes['admin.posts.destroy']
     }
-  }
-  session: {
-    destroy: typeof routes['session.destroy']
+    logout: typeof routes['admin.logout']
   }
   attachments: typeof routes['attachments']
 }
